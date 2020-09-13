@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+  <form method="post" action="/add-todo">
+    <div class="input-group mb-3">
+      <input name="text" id="text" type="text" class="form-control" placeholder="Add new task" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-outline-secondary" type="button">+</button>
+        </div>
+    </div>
+  </form>
+</div>
+<div class="container mt-5">
+    {% if tasks|length > 0 %}
+      <h1>Tasks to do {{NumberOfTodo}}</h1>
+      {% for el in tasks %}
+        {% if el.isDone == 0 %}
+        <div class="alert alert-info" >
+        <p>
+          {{el.text}}
+          <span style="display :block; text-align: right;">
+          <b>{{el.date.date()}}</b>
+          <a href="/{{el.id}}/complete-todo" class="btn btn-success">✔</a>
+          <a href="/{{el.id}}/delete-todo" class="btn btn-danger">🗑</a>
+          </span>
+        </p>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+    <p> There are no tasks to do :( </p>
+    {% endif %}
+
+</div>
+<div class="container mt-5">
+    {% if tasks|length > 0 %}
+      <h1>Completed tasks {{NumberOfCompTodo}}</h1>
+      {% for el in tasks %}
+        {% if el.isDone == 1 %}
+          <div class="alert alert-info" >
+          <p>
+            {{el.text}}
+            <span style="display :block; text-align: right;">
+            <b>{{el.date.date()}}</b>
+            <a href="/{{el.id}}/delete-todo" class="btn btn-danger">🗑</a>
+            </span>
+          </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+{% endblock %}
